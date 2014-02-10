@@ -182,3 +182,22 @@ get '/courses' do
 
 end
 
+get '/assignments' do 
+
+  # Make a request to Canvas using the current user's API token.
+  assignments_api = URI("https://canvas.instructure.com/api/v1/courses/#{params[:course_id]}/assignments?access_token=#{AUTH_TOKEN}")
+  canvas_response = Net::HTTP.get(assignments_api)
+  @assignments    = JSON.parse(canvas_response)
+
+  erb :assignments
+
+end
+
+get '/complete' do 
+
+  complete_uri = URI("https://canvas.instructure.com/api/v1/courses/#{params[:course_id]}/assignments/#{params[:assignment_id]}/submissions?access_token=#{AUTH_TOKEN}")
+  response = Net::HTTP.post_form(complete_uri, 'submission[submission_type]' => "online_text_entry", 'submission[body]' => params[:submission])
+  @message = response.message
+  erb :submission_result
+
+end

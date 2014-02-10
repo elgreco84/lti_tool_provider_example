@@ -1,0 +1,25 @@
+<html>
+<body>
+  
+
+<ul>
+<% @assignments.each do |assignment| %>
+
+	<% if assignment['submission_types'].include? 'online_text_entry' %>
+		<h2><%= assignment['name'] %></h2>
+		<form action="/complete" method="get">
+		  Answer: <input type="text" name="submission"><br>
+		  <input type="hidden" name="assignment_id" value="<%= assignment['id'] %>" >
+		  <input type="hidden" name="course_id" value="<%= assignment['course_id'] %>" >
+		  <input type="submit" value="Submit">
+		</form>
+
+	<% end %>
+
+<% end %>
+</ul>
+
+
+
+</body>
+</html>
