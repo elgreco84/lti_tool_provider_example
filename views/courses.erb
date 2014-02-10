@@ -1,0 +1,16 @@
+<html>
+<body>
+  
+
+<ul>
+<% @courses.each do |course| %>
+
+<li><%= course['name'] %><a href="/assignments?course_id=<%= course['id'] %>">View Course Assignments</a></li>
+
+<% end %>
+</ul>
+
+
+
+</body>
+</html>

@@ -3,6 +3,8 @@ require 'ims/lti'
 # must include the oauth proxy object
 require 'oauth/request_proxy/rack_request'
 
+require 'json'
+
 enable :sessions
 set :protection, :except => :frame_options
 
@@ -165,3 +167,18 @@ def was_nonce_used_in_last_x_minutes?(nonce, minutes=60)
   # some kind of caching solution or something to keep a short-term memory of used nonces
   false
 end
+
+# API Demonstration
+
+AUTH_TOKEN = "7~BDsX6rOpqETvcRdEqWIvHoZOUxMXWiPJfLdsASkD7n5Y4TDExrDKamkZ0bNpUTHF"
+
+get '/courses' do 
+
+  courses_api     = URI("https://canvas.instructure.com/api/v1/courses?access_token=#{AUTH_TOKEN}")
+  canvas_response = Net::HTTP.get(courses_api)
+  @courses        = JSON.parse(canvas_response)
+
+  erb :courses
+
+end
+
